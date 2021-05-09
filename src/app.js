@@ -7,7 +7,7 @@ const server = http.createServer(app);
 app.set("port", process.env.PORT || 4000);
 
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.send("hello env:" + process.env.NODE_ENV);
 });
 
 export default {

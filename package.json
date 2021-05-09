@@ -14,11 +14,11 @@
     "url": "https://github.com/CICE-MVR/MVR-Back/issues"
   },
   "scripts": {
-    "build": "babel src --out-dir dist --copy-files",
-    "clean": "rm -rf dist",
-    "start": "node dist",
-    "watch": "babel --watch src --out-dir dist --copy-files",
-    "dev": "nodemon dist"
+    "build": "babel src --out-dir ./dist --copy-files",
+    "clean": "rm -rf ./dist",
+    "start": "npm run build && node ./dist/index.js",
+    "watch": "babel --watch src --out-dir ./dist --copy-files",
+    "dev": "nodemon ./dist"
   },
   "homepage": "https://github.com/CICE-MVR/MVR-Back#readme",
   "dependencies": {
