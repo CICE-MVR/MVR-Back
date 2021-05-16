@@ -1,21 +1,21 @@
 import mongoose from "mongoose";
 import config from "./config";
 
-import models from "./models";
+import { userModel } from "./models/user.model";
 
 const createTestUsers = async () => {
   try {
-    const count = await models.user.estimatedDocumentCount();
+    const count = await userModel.estimatedDocumentCount();
     if (count > 0) {
       return;
     }
     const res = await Promise.all([
-      new models.user({
+      new userModel({
         username: "Vero",
         email: "vero@vero.com",
         password: "verovero",
       }).save(),
-      new models.user({
+      new userModel({
         username: "VeroTest",
         email: "test@vero.com",
         password: "verovero",

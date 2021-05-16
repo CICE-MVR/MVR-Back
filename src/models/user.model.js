@@ -39,8 +39,8 @@ userSchema.pre("save", async function (next) {
   this.password = encrypt;
 });
 
-userSchema.statics.compare = (password, encodePass) => {
-  return bcrypt.compare(password, encodePass);
+userSchema.statics.comparePassword = async (password, encodePass) => {
+  return await bcrypt.compare(password, encodePass);
 };
 
-export default model("user", userSchema);
+export const userModel = model("user", userSchema);

@@ -6,6 +6,7 @@ const config = {
   //       collection: "sessions",
   //     },
   //   },
+  passwordMinLenght: 6,
   jwt: {
     secret: process.env.JWT_SECRET || "secret_key",
     signup: {
