@@ -6,7 +6,7 @@ export const user = (id) => {
   return userModel.findById({ _id: id });
 };
 
-export const token = async (token, name) => {
+export const token = async (token) => {
   try {
     if (!token) {
       throw new Error("token empty");

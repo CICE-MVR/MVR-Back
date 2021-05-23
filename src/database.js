@@ -9,7 +9,7 @@ const createTestUsers = async () => {
     if (count > 0) {
       return;
     }
-    const res = await Promise.all([
+    await Promise.all([
       new userModel({
         username: "Vero",
         email: "vero@vero.com",
@@ -34,7 +34,7 @@ const options = {
 
 mongoose
   .connect(config.db.mongo.host, options)
-  .then(async (db) => {
+  .then(async (_db) => {
     await createTestUsers();
   })
   .catch((err) => console.log(err));
