@@ -16,6 +16,10 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    gameHistory: {
+      wins: Number,
+      total: Number,
+    },
     follows: [
       {
         ref: "user",

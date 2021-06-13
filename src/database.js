@@ -18,6 +18,10 @@ const createTestUsers = async () => {
       new userModel({
         username: "VeroTest",
         email: "test@vero.com",
+        gameHistory: {
+          wins: 1,
+          total: 3,
+        },
         password: "verovero",
       }).save(),
     ]);
