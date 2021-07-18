@@ -33,12 +33,22 @@ const io = new Server(server, {
 
 // Sockets.
 io.on("connection", (socket) => {
+  socket.on("disconnect", () => {
+    io.emit("disconnected", { socketId: socket.id });
+  });
+
   socket.on("message", ({ room, username, message }) => {
     io.to(`game-${room}`).emit("response", { username, message });
   });
 
-  socket.on("join-room", (room) => {
+  socket.on("join-room", ({ room, username }) => {
+    io.emit("disconnected", socket.id);
     socket.join(`game-${room}`);
+    io.to(`game-${room}`).emit("connected", { socketId: socket.id, username });
+  });
+
+  socket.on("wave", ({ username, room }) => {
+    io.to(`game-${room}`).emit("wave", { socketId: socket.id, username });
   });
 });
 
