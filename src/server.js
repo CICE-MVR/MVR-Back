@@ -45,11 +45,15 @@ io.on("connection", (socket) => {
   socket.on("join-room", ({ room, username }) => {
     io.emit("disconnected", socket.id);
     socket.join(`game-${room}`);
-    io.to(`game-${room}`).emit("connected", { socketId: socket.id, username });
+    io.to(`game-${room}`)
+      .except(socket.id)
+      .emit("connected", { socketId: socket.id, username });
   });
 
   socket.on("wave", ({ username, room }) => {
-    io.to(`game-${room}`).emit("wave", { socketId: socket.id, username });
+    io.to(`game-${room}`)
+      .except(socket.id)
+      .emit("wave", { socketId: socket.id, username });
   });
 
   socket.on("invite-to-play", ({ username, recipient }) => {
@@ -68,6 +72,24 @@ io.on("connection", (socket) => {
   socket.on("reject-invite", ({ username, recipient }) => {
     io.to(recipient).emit("invitation-rejected", {
       username,
+      socketId: socket.id,
+    });
+  });
+
+  socket.on("make-guess", ({ username, guess, room }) => {
+    io.to(`game-${room}`).except(socket.id).emit("make-guess", {
+      username,
+      socketId: socket.id,
+      guess,
+    });
+  });
+  socket.on("correct-guess", ({ room }) => {
+    io.to(`game-${room}`).except(socket.id).emit("correct-guess", {
+      socketId: socket.id,
+    });
+  });
+  socket.on("wrong-guess", ({ room }) => {
+    io.to(`game-${room}`).except(socket.id).emit("wrong-guess", {
       socketId: socket.id,
     });
   });
