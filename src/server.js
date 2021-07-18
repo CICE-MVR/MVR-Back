@@ -2,6 +2,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import { Server } from "socket.io";
+import { v4 as uuidv4 } from "uuid";
 
 import authRoutes from "./routes/api/auth.routes";
 
@@ -49,6 +50,26 @@ io.on("connection", (socket) => {
 
   socket.on("wave", ({ username, room }) => {
     io.to(`game-${room}`).emit("wave", { socketId: socket.id, username });
+  });
+
+  socket.on("invite-to-play", ({ username, recipient }) => {
+    io.to(recipient).emit("invitation", { username, socketId: socket.id });
+  });
+
+  socket.on("accept-invite", ({ username, recipient }) => {
+    const gameId = uuidv4();
+    io.to([socket.id, recipient]).emit("invitation-accepted", {
+      username,
+      socketId: socket.id,
+      gameId,
+    });
+  });
+
+  socket.on("reject-invite", ({ username, recipient }) => {
+    io.to(recipient).emit("invitation-rejected", {
+      username,
+      socketId: socket.id,
+    });
   });
 });
 
